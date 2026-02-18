@@ -13,5 +13,12 @@ namespace GameTournamentAPI.Controllers
         {
             _service = service;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            var data = await _service.GetAllAsync();
+            return Ok(data);
+        }
     }
 }
