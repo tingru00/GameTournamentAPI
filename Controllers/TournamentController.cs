@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GameTournamentAPI.Controllers
 {
+     // Controller responsible for handling Tournament API endpoints
     [ApiController]
     [Route("api/[controller]")]
     public class TournamentController : ControllerBase
@@ -15,6 +16,7 @@ namespace GameTournamentAPI.Controllers
             _service = service;
         }
 
+        //GET-endpoint -retrieves all tournaments
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] string? search)
         {
@@ -22,7 +24,7 @@ namespace GameTournamentAPI.Controllers
             return Ok(data);
         }
 
-
+        // GET endpoint -retrieves a specific tournament by id
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -34,7 +36,7 @@ namespace GameTournamentAPI.Controllers
             return Ok(result);
         }
 
-
+        // POST endpoint -creates a new tournament
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] TournamentCreateDTO dto)
         {
@@ -42,6 +44,7 @@ namespace GameTournamentAPI.Controllers
             return Ok(result);
         }
 
+        // PUT endpoint -updates an existing tournament by id
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] TournamentUpdateDTO dto)
         {
@@ -53,7 +56,7 @@ namespace GameTournamentAPI.Controllers
             return NoContent();
         }
 
-
+        // DELETE endpoint -removes a tournament by id
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
