@@ -6,15 +6,17 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GameTournamentAPI.Services
 {
+    // Handles business logic and database operations for Tournament
     public class TournamentService
     {
         private readonly AppDbContext _context;
-
+        // Injects DbContext for database access
         public TournamentService(AppDbContext context)
         {
             _context = context;
         }
-        
+
+        // Returns all tournaments with optional title search
         public async Task<List<TournamentResponseDTO>> GetAllAsync(string? search)
         {
             var query = _context.Tournaments.AsQueryable();
@@ -24,11 +26,14 @@ namespace GameTournamentAPI.Services
                 query = query.Where(t => t.Title.Contains(search));
             }
 
-            return await _context.Tournaments
+            return await query
+
             .Select(t=> new TournamentResponseDTO 
             { Id = t.Id})
             .ToListAsync();
         }
+
+        // Creates a new tournament and saves it to the database
         public async Task<TournamentResponseDTO> CreateAsync(TournamentCreateDTO dto)
         {
             var tournament = new Tournament
@@ -48,6 +53,7 @@ namespace GameTournamentAPI.Services
             };
         }
 
+        // Updates an existing tournament by id
         public async Task<bool> UpdateAsync(int id, TournamentUpdateDTO dto)
         {
             var tournament = await _context.Tournaments.FindAsync(id);
@@ -65,6 +71,7 @@ namespace GameTournamentAPI.Services
             return true;
         }
 
+        // Returns a specific tournament by id
         public async Task<TournamentResponseDTO?> GetByIdAsync(int id)
         {
             var tournament = await _context.Tournaments
@@ -79,6 +86,7 @@ namespace GameTournamentAPI.Services
             };
         }
 
+        // Deletes a tournament by id
         public async Task<bool> DeleteAsync(int id)
         {
             var tournament = await _context.Tournaments.FindAsync(id);

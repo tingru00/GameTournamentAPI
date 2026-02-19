@@ -2,8 +2,10 @@
 
 namespace GameTournamentAPI.DTOs
 {
+    // DTO used for updating a current tournament via PUT requests
     public class TournamentUpdateDTO
     {
+        // Tournament title (required, minimum 3 characters)
         [Required]
         [MinLength(3)]
         public string Title { get; set; }
@@ -11,7 +13,9 @@ namespace GameTournamentAPI.DTOs
         public string Description { get; set; }
 
         public int MaxPlayers { get; set; }
-
+        // Date when the tournament will take place - Required and cannot be past date
+        [Required]
+        [FutureDate]
         public DateTime Date { get; set; }
     }
 }

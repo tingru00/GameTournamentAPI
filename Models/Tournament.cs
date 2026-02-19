@@ -1,5 +1,6 @@
 ﻿namespace GameTournamentAPI.Models
 {
+    // Entity model representing a Tournament stored in the database
     public class Tournament
     {
         public int Id { get; set; }
