@@ -1,4 +1,5 @@
-﻿using GameTournamentAPI.Services;
+﻿using GameTournamentAPI.DTOs;
+using GameTournamentAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameTournamentAPI.Controllers
@@ -19,6 +20,13 @@ namespace GameTournamentAPI.Controllers
         {
             var data = await _service.GetAllAsync();
             return Ok(data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] TournamentCreateDTO dto)
+        {
+            var result = await _service.CreateAsync(dto);
+            return Ok(result);
         }
     }
 }
