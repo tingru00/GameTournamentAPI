@@ -1,4 +1,5 @@
 ﻿using GameTournamentAPI.Data;
+using GameTournamentAPI.DTOs;
 using GameTournamentAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,9 +14,12 @@ namespace GameTournamentAPI.Services
             _context = context;
         }
 
-        public async Task<List<Tournament>> GetAllAsync()
+        public async Task<List<TournamentResponseDTO>> GetAllAsync()
         {
-            return await _context.Tournaments.ToListAsync();
+            return await _context.Tournaments
+            .Select(t=> new TournamentResponseDTO 
+            { Id = t.Id})
+            .ToListAsync();
         }
 
     }
