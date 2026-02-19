@@ -14,9 +14,16 @@ namespace GameTournamentAPI.Services
         {
             _context = context;
         }
-
-        public async Task<List<TournamentResponseDTO>> GetAllAsync()
+        
+        public async Task<List<TournamentResponseDTO>> GetAllAsync(string? search)
         {
+            var query = _context.Tournaments.AsQueryable();
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(t => t.Title.Contains(search));
+            }
+
             return await _context.Tournaments
             .Select(t=> new TournamentResponseDTO 
             { Id = t.Id})
@@ -39,6 +46,50 @@ namespace GameTournamentAPI.Services
             {
                 Id = tournament.Id
             };
+        }
+
+        public async Task<bool> UpdateAsync(int id, TournamentUpdateDTO dto)
+        {
+            var tournament = await _context.Tournaments.FindAsync(id);
+
+            if (tournament == null)
+                return false;
+
+            tournament.Title = dto.Title;
+            tournament.Description = dto.Description;
+            tournament.MaxPlayers = dto.MaxPlayers;
+            tournament.Date = dto.Date;
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<TournamentResponseDTO?> GetByIdAsync(int id)
+        {
+            var tournament = await _context.Tournaments
+                .FirstOrDefaultAsync(t => t.Id == id);
+
+            if (tournament == null)
+                return null;
+
+            return new TournamentResponseDTO
+            {
+                Id = tournament.Id
+            };
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var tournament = await _context.Tournaments.FindAsync(id);
+
+            if (tournament == null)
+                return false;
+
+            _context.Tournaments.Remove(tournament);
+            await _context.SaveChangesAsync();
+
+            return true;
         }
 
 
