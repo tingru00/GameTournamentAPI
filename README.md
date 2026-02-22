@@ -94,14 +94,4 @@ Validation is implemented using DataAnnotations:
 ---
 
 ## ▶️ Running the Project
-
-1. Clone the repository:
-
-```bash
-git clone <your-repo-url>
-Update connection string in appsettings.json
-
-Run migrations:
-
-Update-Database
-Start the project:
+Run the project in Visual Studio and use Swagger to test the API.
